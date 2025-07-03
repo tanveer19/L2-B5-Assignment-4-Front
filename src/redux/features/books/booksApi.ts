@@ -13,7 +13,7 @@ export const booksApi = baseApi.injectEndpoints({
     // GET single book by ID
     getBookById: builder.query<Book, string>({
       query: (id) => `/books/${id}`,
-      providesTags: (result, error, id) => [{ type: "Books", id }],
+      providesTags: (_result, _error, id) => [{ type: "Books", id }],
     }),
 
     // CREATE a new book
@@ -33,7 +33,7 @@ export const booksApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: (_result, _error, { id }) => [
         { type: "Books", id },
         "Books",
       ],
@@ -45,7 +45,10 @@ export const booksApi = baseApi.injectEndpoints({
         url: `/books/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, id) => [{ type: "Books", id }, "Books"],
+      invalidatesTags: (_result, _error, id) => [
+        { type: "Books", id },
+        "Books",
+      ],
     }),
 
     // BORROW a book

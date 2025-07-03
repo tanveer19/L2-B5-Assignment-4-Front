@@ -19,10 +19,10 @@ const Navbar = () => {
           Books
         </Link>
         <Link
-          to="/Users"
+          to="/create-book"
           className="text-gray-700 hover:text-green-600 font-medium"
         >
-          Users
+          Create Book
         </Link>
         <div className="ml-auto"></div>
       </nav>
