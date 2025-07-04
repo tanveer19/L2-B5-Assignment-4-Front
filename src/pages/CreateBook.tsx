@@ -29,7 +29,7 @@ const CreateBook = () => {
     try {
       const result = await createBook(data).unwrap();
       toast.success(result.message || "Book created successfully!");
-      // reset();
+      reset();
       navigate("/books");
     } catch (error: any) {
       const backendMsg =

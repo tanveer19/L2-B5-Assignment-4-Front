@@ -8,8 +8,12 @@ interface CreateBookResponse {
 
 export const booksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getBooks: builder.query<Book[], void>({
-      query: () => "/books",
+    getBooks: builder.query<
+      { success: boolean; message: string; data: Book[] },
+      { page?: number; limit?: number }
+    >({
+      query: ({ page = 1, limit = 10 } = {}) =>
+        `/books?page=${page}&limit=${limit}`,
       providesTags: ["Books"],
     }),
 
