@@ -1,23 +1,26 @@
-import type { Book } from "../../../types";
 import { baseApi } from "../../api/baseApi";
-interface CreateBookResponse {
-  success: boolean;
-  message: string;
-  data: Book;
-}
+import type { ApiResponse, Book, BorrowSummaryItem } from "../../../types";
 
 export const booksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    // GET all books
     getBooks: builder.query<
-      { success: boolean; message: string; data: Book[] },
-      { page?: number; limit?: number }
+      ApiResponse<Book[]>,
+      { page?: number; limit?: number } | void
     >({
       query: ({ page = 1, limit = 10 } = {}) =>
         `/books?page=${page}&limit=${limit}`,
       providesTags: ["Books"],
     }),
 
-    createBook: builder.mutation<CreateBookResponse, Partial<Book>>({
+    // GET single book by ID
+    getBookById: builder.query<ApiResponse<Book>, string>({
+      query: (id) => `/books/${id}`,
+      providesTags: (_, __, id) => [{ type: "Books", id }],
+    }),
+
+    // CREATE book
+    createBook: builder.mutation<ApiResponse<Book>, Partial<Book>>({
       query: (newBook) => ({
         url: "/books",
         method: "POST",
@@ -26,40 +29,31 @@ export const booksApi = baseApi.injectEndpoints({
       invalidatesTags: ["Books"],
     }),
 
-    // GET single book by ID
-    getBookById: builder.query<Book, string>({
-      query: (id) => `/books/${id}`,
-      providesTags: (_result, _error, id) => [{ type: "Books", id }],
-    }),
-
-    // UPDATE a book
-    updateBook: builder.mutation<Book, { id: string; data: Partial<Book> }>({
+    // UPDATE book
+    updateBook: builder.mutation<
+      ApiResponse<Book>,
+      { id: string; data: Partial<Book> }
+    >({
       query: ({ id, data }) => ({
         url: `/books/${id}`,
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: (_result, _error, { id }) => [
-        { type: "Books", id },
-        "Books",
-      ],
+      invalidatesTags: (_, __, { id }) => [{ type: "Books", id }, "Books"],
     }),
 
-    // DELETE a book
-    deleteBook: builder.mutation<{ success: boolean }, string>({
+    // DELETE book
+    deleteBook: builder.mutation<ApiResponse<null>, string>({
       query: (id) => ({
         url: `/books/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (_result, _error, id) => [
-        { type: "Books", id },
-        "Books",
-      ],
+      invalidatesTags: (_, __, id) => [{ type: "Books", id }, "Books"],
     }),
 
-    // BORROW a book
+    // BORROW book
     borrowBook: builder.mutation<
-      { success: boolean },
+      ApiResponse<any>,
       { bookId: string; quantity: number; dueDate: string }
     >({
       query: ({ bookId, quantity, dueDate }) => ({
@@ -70,19 +64,15 @@ export const booksApi = baseApi.injectEndpoints({
       invalidatesTags: ["Books", "BorrowSummary"],
     }),
 
-    // GET borrow summary
-    getBorrowSummary: builder.query<
-      { title: string; isbn: string; totalQuantity: number }[],
-      void
-    >({
-      query: () => `/borrow-summary`,
+    // BORROW summary
+    getBorrowSummary: builder.query<ApiResponse<BorrowSummaryItem[]>, void>({
+      query: () => "/borrow-summary",
       providesTags: ["BorrowSummary"],
     }),
   }),
   overrideExisting: false,
 });
 
-// Export hooks
 export const {
   useGetBooksQuery,
   useGetBookByIdQuery,
