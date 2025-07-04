@@ -1,29 +1,31 @@
 import type { Book } from "../../../types";
 import { baseApi } from "../../api/baseApi";
+interface CreateBookResponse {
+  success: boolean;
+  message: string;
+  data: Book;
+}
 
 export const booksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // GET all books (optionally with pagination)
-    getBooks: builder.query<Book[], { page?: number; limit?: number }>({
-      query: ({ page = 1, limit = 10 } = {}) =>
-        `/books?page=${page}&limit=${limit}`,
+    getBooks: builder.query<Book[], void>({
+      query: () => "/books",
       providesTags: ["Books"],
     }),
 
-    // GET single book by ID
-    getBookById: builder.query<Book, string>({
-      query: (id) => `/books/${id}`,
-      providesTags: (_result, _error, id) => [{ type: "Books", id }],
-    }),
-
-    // CREATE a new book
-    createBook: builder.mutation<Book, Partial<Book>>({
+    createBook: builder.mutation<CreateBookResponse, Partial<Book>>({
       query: (newBook) => ({
         url: "/books",
         method: "POST",
         body: newBook,
       }),
       invalidatesTags: ["Books"],
+    }),
+
+    // GET single book by ID
+    getBookById: builder.query<Book, string>({
+      query: (id) => `/books/${id}`,
+      providesTags: (_result, _error, id) => [{ type: "Books", id }],
     }),
 
     // UPDATE a book
