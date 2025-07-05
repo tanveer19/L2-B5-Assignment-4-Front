@@ -1,8 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import type { Book } from "../types";
-import { useUpdateBookMutation } from "../redux/features/books/booksApi";
+import {
+  useGetBookByIdQuery,
+  useUpdateBookMutation,
+} from "../redux/features/books/booksApi";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const GENRES = [
   "FICTION",
@@ -15,8 +19,10 @@ const GENRES = [
 
 const editBook = () => {
   const { id } = useParams<{ id: string }>();
-
   const navigate = useNavigate();
+
+  const [editBook, { isLoading }] = useUpdateBookMutation();
+
   const {
     register,
     handleSubmit,
@@ -25,17 +31,30 @@ const editBook = () => {
     setError,
   } = useForm<Partial<Book>>();
 
-  const [editBook, { isLoading }] = useUpdateBookMutation();
+  const { data, isLoading: isBookLoading } = useGetBookByIdQuery(id!, {
+    skip: !id,
+  });
 
-  const onSubmit = async (data: Partial<Book>) => {
+  useEffect(() => {
+    if (data?.data) {
+      reset(data.data);
+    }
+  }, [data, reset]);
+
+  if (isBookLoading) {
+    return <p>Loading book data...</p>;
+  }
+
+  const onSubmit = async (formData: Partial<Book>) => {
     try {
-      const result = await editBook(data).unwrap();
+      if (!id) return;
+      const result = await editBook({ id, data: formData }).unwrap();
       toast.success(result.message || "Book edited successfully!");
       reset();
       navigate("/books");
     } catch (error: any) {
       const backendMsg =
-        error?.data?.error || error?.data?.message || "Failed to create book";
+        error?.data?.error || error?.data?.message || "Failed to update book";
 
       toast.error(backendMsg);
 
@@ -139,7 +158,7 @@ const editBook = () => {
           )}
         </div>
 
-        <div>
+        {/* <div>
           <label className="inline-flex items-center">
             <input
               type="checkbox"
@@ -148,14 +167,14 @@ const editBook = () => {
             />
             Available
           </label>
-        </div>
+        </div> */}
 
         <button
           type="submit"
           disabled={isLoading}
           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:opacity-50"
         >
-          {isLoading ? "Creating..." : "Create Book"}
+          {isLoading ? "Creating..." : "Update Book"}
         </button>
       </form>
     </div>

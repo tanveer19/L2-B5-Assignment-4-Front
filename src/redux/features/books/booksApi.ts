@@ -36,7 +36,7 @@ export const booksApi = baseApi.injectEndpoints({
     >({
       query: ({ id, data }) => ({
         url: `/books/${id}`,
-        method: "PATCH",
+        method: "PUT",
         body: data,
       }),
       invalidatesTags: (_, __, { id }) => [{ type: "Books", id }, "Books"],
