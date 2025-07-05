@@ -17,7 +17,7 @@ const GENRES = [
   "FANTASY",
 ];
 
-const editBook = () => {
+const EditBook = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -181,4 +181,4 @@ const editBook = () => {
   );
 };
 
-export default editBook;
+export default EditBook;

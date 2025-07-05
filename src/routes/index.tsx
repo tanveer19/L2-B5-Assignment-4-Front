@@ -2,9 +2,10 @@ import { createBrowserRouter } from "react-router";
 import App from "../App";
 import books from "../pages/Books";
 import createBook from "../pages/CreateBook";
-import borrowSummary from "../pages/BorrowSummary";
+import BorrowSummary from "../pages/BorrowSummary";
 import BookDetailPage from "../pages/BookDetailPage";
-import editBook from "../pages/EditBook";
+import EditBook from "../pages/EditBook";
+import BorrowBook from "../pages/BorrowBook";
 
 const router = createBrowserRouter([
   {
@@ -26,11 +27,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/edit-book/:id",
-        Component: editBook,
+        Component: EditBook,
+      },
+      {
+        path: "/borrow/:bookId",
+        Component: BorrowBook,
       },
       {
         path: "borrow-summary",
-        Component: borrowSummary,
+        Component: BorrowSummary,
       },
     ],
   },

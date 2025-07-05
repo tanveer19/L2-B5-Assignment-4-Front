@@ -1,5 +1,10 @@
 import { baseApi } from "../../api/baseApi";
-import type { ApiResponse, Book, BorrowSummaryItem } from "../../../types";
+import type {
+  ApiResponse,
+  Book,
+  BorrowSummaryItem,
+  IBorrow,
+} from "../../../types";
 
 export const booksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -53,13 +58,13 @@ export const booksApi = baseApi.injectEndpoints({
 
     // BORROW book
     borrowBook: builder.mutation<
-      ApiResponse<any>,
+      ApiResponse<IBorrow>,
       { bookId: string; quantity: number; dueDate: string }
     >({
       query: ({ bookId, quantity, dueDate }) => ({
-        url: `/borrow/${bookId}`,
+        url: `/borrow`,
         method: "POST",
-        body: { quantity, dueDate },
+        body: { book: bookId, quantity, dueDate },
       }),
       invalidatesTags: ["Books", "BorrowSummary"],
     }),

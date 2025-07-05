@@ -1,4 +1,4 @@
-const borrowSummary = () => {
+const BorrowSummary = () => {
   return (
     <div>
       <h1> Displays an aggregated summary of all borrowed books.</h1>
@@ -6,4 +6,4 @@ const borrowSummary = () => {
   );
 };
 
-export default borrowSummary;
+export default BorrowSummary;

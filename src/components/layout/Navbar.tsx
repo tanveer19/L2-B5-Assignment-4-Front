@@ -12,18 +12,28 @@ const Navbar = () => {
         <Link to="/" className="text-gray-700 hover:text-green-600 font-medium">
           Home
         </Link>
+
         <Link
           to="/books"
           className="text-gray-700 hover:text-green-600 font-medium"
         >
-          Books
+          All Books
         </Link>
+
         <Link
           to="/create-book"
           className="text-gray-700 hover:text-green-600 font-medium"
         >
-          Create Book
+          Add Book
         </Link>
+
+        <Link
+          to="/borrow-summary"
+          className="text-gray-700 hover:text-green-600 font-medium"
+        >
+          Borrow Summary
+        </Link>
+
         <div className="ml-auto"></div>
       </nav>
     </div>

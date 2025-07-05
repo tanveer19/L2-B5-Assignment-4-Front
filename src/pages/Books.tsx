@@ -26,7 +26,7 @@ const Books = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Books List</h1>
+      <h1 className="text-2xl font-bold mb-4">Book List Table</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300">
           <thead className="bg-gray-100">
