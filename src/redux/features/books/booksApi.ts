@@ -71,7 +71,7 @@ export const booksApi = baseApi.injectEndpoints({
 
     // BORROW summary
     getBorrowSummary: builder.query<ApiResponse<BorrowSummaryItem[]>, void>({
-      query: () => "/borrow-summary",
+      query: () => "/borrow",
       providesTags: ["BorrowSummary"],
     }),
   }),
