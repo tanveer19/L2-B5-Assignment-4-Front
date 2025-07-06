@@ -36,9 +36,18 @@ const BorrowBook = () => {
   return (
     <div className="max-w-md mx-auto p-4 border rounded shadow">
       <h1 className="text-2xl font-bold mb-4">Borrow Book</h1>
+
+      {book?.data?.title && (
+        <p className="text-lg font-semibold ">Book Name: {book.data.title}</p>
+      )}
+      <span className="text-lg font-semibold ">Available Quantity: </span>
+      {book?.data?.copies && (
+        <span className="text-lg font-semibold my-3">{book.data.copies}</span>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <div>
-          <label className="block">Quantity</label>
+          <label className="block">Required Quantity</label>
 
           <input
             type="number"

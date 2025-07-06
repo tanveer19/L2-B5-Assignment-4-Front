@@ -6,6 +6,7 @@ import BorrowSummary from "../pages/BorrowSummary";
 import BookDetailPage from "../pages/BookDetailPage";
 import EditBook from "../pages/EditBook";
 import BorrowBook from "../pages/BorrowBook";
+import Home from "../pages/Home";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,10 @@ const router = createBrowserRouter([
     Component: App,
     children: [
       {
-        // index: true,
+        path: "/",
+        Component: Home,
+      },
+      {
         path: "books",
         Component: books,
       },

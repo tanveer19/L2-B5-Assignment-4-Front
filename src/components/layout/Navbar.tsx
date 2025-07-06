@@ -17,7 +17,7 @@ const Navbar = () => {
           to="/books"
           className="text-gray-700 hover:text-green-600 font-medium"
         >
-          All Books
+          Book List
         </Link>
 
         <Link

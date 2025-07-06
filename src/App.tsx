@@ -9,8 +9,8 @@ function App() {
     <div>
       <Navbar></Navbar>
       <Outlet></Outlet>
-      <ToastContainer position="top-right" autoClose={3000} />
       <Footer></Footer>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
